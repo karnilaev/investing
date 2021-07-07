@@ -22,10 +22,13 @@ class LoginE2ETest: E2ETest() {
   }
 
   @Test
-  fun admin() {
+  fun `admin user login and logout`() {
     loginWithPassword("admin")
     elByText("admin.dashboard.title").shouldBe(visible)
     assertThat(url()).endsWith("/en/app/admin")
+    elByText("login.logout").click()
+    assertThat(url()).endsWith("/en/home/")
+    elByText("pages.home.title").shouldBe(visible)
   }
 
   private fun loginWithPassword(login: String) {

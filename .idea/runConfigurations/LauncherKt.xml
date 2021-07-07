@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="LauncherKt" type="JetRunConfigurationType" nameIsGenerated="true">
     <option name="MAIN_CLASS_NAME" value="LauncherKt" />
-    <module name="work.kotlin-jooby-svelte-template.main" />
+    <module name="investing.main" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>
