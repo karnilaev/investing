@@ -1,8 +1,6 @@
 package db
 
 import com.zaxxer.hikari.util.DriverDataSource
-import db.RequestTransactionHandler
-import db.Transaction
 import io.jooby.*
 import io.mockk.*
 import org.assertj.core.api.Assertions.assertThat
@@ -11,16 +9,16 @@ import java.sql.Connection
 import javax.sql.DataSource
 
 class RequestTransactionHandlerTest {
-  val ctx = mockk<Context>(relaxed = true) {
+  private val ctx = mockk<Context>(relaxed = true) {
     every { requestPath } returns "/path"
     every { queryString() } returns "?q=hello"
     every { attribute<Transaction>("tx") } answers { Transaction.current()!! }
   }
-  val conn = mockk<Connection>(relaxed = true)
-  val db = mockk<DriverDataSource>(relaxed = true) {
+  private val conn = mockk<Connection>(relaxed = true)
+  private val db = mockk<DriverDataSource>(relaxed = true) {
     every { connection } returns conn
   }
-  val handler = RequestTransactionHandler()
+  private val handler = RequestTransactionHandler()
 
   @Test
   fun `commit on success`() {

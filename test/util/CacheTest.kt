@@ -4,8 +4,8 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class CacheTest {
-  var count = 0
-  val provider = { ++count } // e.g. { http.get("/something") }
+  private var count = 0
+  private val provider = { ++count } // e.g. { http.get("/something") }
 
   @Test
   fun `cache does not expire`() {

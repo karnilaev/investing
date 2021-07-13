@@ -1,6 +1,5 @@
 package auth
 
-import auth.Role
 import db.BaseModel
 import java.time.Instant
 import java.util.*

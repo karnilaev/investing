@@ -5,11 +5,10 @@ import org.junit.jupiter.api.*
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import java.util.*
 import java.util.UUID.randomUUID
-import kotlin.NoSuchElementException
 
 @TestInstance(PER_CLASS)
 class JdbcExtensionsTest: DBTest() {
-  val table = "temp"
+  private val table = "temp"
 
   @BeforeAll fun before() {
     db.exec("create table $table(id uuid primary key, hello varchar, world int)")

@@ -8,7 +8,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class LangTest {
-  val ctx = mockk<Context>(relaxed = true) {
+  private val ctx = mockk<Context>(relaxed = true) {
     every { cookie(Lang.COOKIE).valueOrNull() } returns null
   }
 
@@ -28,7 +28,7 @@ class LangTest {
   fun `detect from header`() {
     every { ctx.header("Accept-Language").valueOrNull() } returns "en-US,en;q=0.9,jp"
     assertThat(Lang.detect(ctx)).isEqualTo("en")
-    verify { ctx.setResponseCookie(match { cookie -> cookie.name == Lang.COOKIE && cookie.value == "en" })}
+    verify { ctx.setResponseCookie(match { cookie -> cookie.name == Lang.COOKIE && cookie.value == "en" }) }
   }
 
   @Test

@@ -11,7 +11,8 @@
     "otp": {
       "message": "Your one-time password is {otp}"
     },
-    "logout": "Log out"
+    "logout": "Log out",
+    "unauthorized": "You need to log in"
   },
   "pages": {
     "home": {

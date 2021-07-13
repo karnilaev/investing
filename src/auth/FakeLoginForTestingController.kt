@@ -9,7 +9,7 @@ import io.jooby.annotations.*
 import io.jooby.exception.NotFoundException
 
 @Path("/fake-login")
-class FakeLoginForTestingController(val userRepository: UserRepository, val env: Environment): Before {
+class FakeLoginForTestingController(private val userRepository: UserRepository, private val env: Environment): Before {
   override fun before(ctx: Context) {
     if (!env.isActive("test")) throw IllegalStateException("$javaClass should not be active while not testing")
   }

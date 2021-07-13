@@ -15,8 +15,8 @@ import java.net.http.HttpResponse
 import java.util.concurrent.CompletableFuture.completedFuture
 
 class JsonHttpClientTest {
-  val httpClient = mockk<HttpClient>()
-  val http = JsonHttpClient("http://some.host/v1", { setHeader("X-Custom-API", "123") }, http = httpClient)
+  private val httpClient = mockk<HttpClient>()
+  private val http = JsonHttpClient("http://some.host/v1", { setHeader("X-Custom-API", "123") }, http = httpClient)
 
   @Test
   fun get() {

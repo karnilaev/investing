@@ -5,7 +5,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class HashingServiceTest {
-  val hashingService = HashingService()
+  private val hashingService = HashingService()
 
   @Test
   fun hashPassword() {

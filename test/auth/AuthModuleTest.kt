@@ -1,5 +1,6 @@
 package auth
 
+import auth.Role.*
 import io.jooby.AssetHandler
 import io.jooby.Context
 import io.jooby.exception.BadRequestException
@@ -9,15 +10,14 @@ import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import auth.Role.*
 import java.util.*
 
 class AuthModuleTest {
-  val user = User(login = "login", role = USER, lang = "et")
-  val ctx = mockk<Context>(relaxed = true) {
+  private val user = User(login = "login", role = USER, lang = "et")
+  private val ctx = mockk<Context>(relaxed = true) {
     every { requestPath } returns "/api/anything"
   }
-  val auth = AuthModule().apply {
+  private val auth = AuthModule().apply {
     userRepository = mockk(relaxed = true) {
       every { get(user.id) } returns user
     }

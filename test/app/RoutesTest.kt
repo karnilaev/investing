@@ -9,7 +9,7 @@ import io.mockk.verify
 import org.junit.jupiter.api.Test
 
 class RoutesTest {
-  val app = mockk<Jooby>(relaxed = true)
+  private val app = mockk<Jooby>(relaxed = true)
 
   @Test
   fun `mvc routes without before handler`() {

@@ -3,6 +3,7 @@ package app
 import auth.AuthController
 import auth.FakeLoginForTestingController
 import db.TransactionCoroutineContext
+import domain.portfolios.PortfolioController
 import io.jooby.Context
 import io.jooby.Jooby
 import io.jooby.Kooby
@@ -15,6 +16,7 @@ fun Kooby.registerRoutes() {
 
     mvc<HealthRoutes>()
     mvc<AuthController>()
+    mvc<PortfolioController>()
     if (environment.isTest) mvc<FakeLoginForTestingController>()
   }
 }

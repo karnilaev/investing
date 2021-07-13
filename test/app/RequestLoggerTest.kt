@@ -14,7 +14,7 @@ import org.slf4j.Logger
 import org.slf4j.MDC
 
 class RequestLoggerTest {
-  val ctx = mockk<Context>(relaxed = true) {
+  private val ctx = mockk<Context>(relaxed = true) {
     every { remoteAddress } returns "127.0.0.13"
     every { method } returns "GET"
     every { requestPath } returns "/path"
@@ -28,8 +28,8 @@ class RequestLoggerTest {
     every { getUser<User>() } returns TestData.user
   }
 
-  val requestLog = mockk<Logger>(relaxed = true)
-  val handler = RequestLogger(requestLog)
+  private val requestLog = mockk<Logger>(relaxed = true)
+  private val handler = RequestLogger(requestLog)
 
   @Test
   fun `successful request log with proxy`() {
@@ -40,9 +40,11 @@ class RequestLoggerTest {
 
     val user = TestData.user
     verify {
-      requestLog.info(match { it.matches(
-        """USER:${user.id} "GET /path\?q=hello" 202 12345 \d+ ms http://referrer "User-Agent"""".toRegex()
-      )})
+      requestLog.info(match {
+        it.matches(
+          """USER:${user.id} "GET /path\?q=hello" 202 12345 \d+ ms http://referrer "User-Agent"""".toRegex()
+        )
+      })
     }
     assertThat(MDC.get("requestId")).isNull()
   }

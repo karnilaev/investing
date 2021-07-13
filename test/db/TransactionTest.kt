@@ -7,7 +7,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class TransactionTest {
-  val db = mockk<DriverDataSource>(relaxed = true)
+  private val db = mockk<DriverDataSource>(relaxed = true)
 
   @Test
   fun `transaction does not open connection at start`() {

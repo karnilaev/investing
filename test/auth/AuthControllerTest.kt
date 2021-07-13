@@ -1,6 +1,5 @@
 package auth
 
-import app.Lang
 import app.TestData
 import io.jooby.Context
 import io.jooby.Session
@@ -9,16 +8,15 @@ import io.mockk.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import auth.Role.USER
 
 class AuthControllerTest {
-  val user = TestData.user
-  val session = mockk<Session>(relaxed = true)
-  val ctx = mockk<Context>(relaxed = true)
-  val userRepository = mockk<UserRepository>(relaxed = true) {
+  private val user = TestData.user
+  private val session = mockk<Session>(relaxed = true)
+  private val ctx = mockk<Context>(relaxed = true)
+  private val userRepository = mockk<UserRepository>(relaxed = true) {
     every { create(any(), any(), any(), any()) } returns user
   }
-  val controller = AuthController(userRepository)
+  private val controller = AuthController(userRepository)
 
   @Test
   fun `login with password`() {

@@ -7,7 +7,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class JoobyExtensionsTest {
-  val ctx = mockk<Context>(relaxed = true)
+  private val ctx = mockk<Context>(relaxed = true)
 
   @Test
   fun isHttps() {
