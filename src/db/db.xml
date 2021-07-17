@@ -34,8 +34,14 @@
   <changeSet id="portfolios" author="Karnilaev">
     <createTable tableName="portfolios">
       <column name="id" type="uuid" defaultValueComputed="uuid_generate_v4()"><constraints primaryKey="true" primaryKeyName="portfolios_pk"/></column>
+      <column name="user_id" type="uuid"><constraints nullable="false"/></column>
       <column name="name" type="varchar(100)"><constraints nullable="false"/></column>
     </createTable>
+    <addForeignKeyConstraint constraintName="fk_portfolios_users_id"
+                             baseTableName="portfolios"
+                             baseColumnNames="user_id"
+                             referencedTableName="users"
+                             referencedColumnNames="id"/>
   </changeSet>
 
 </databaseChangeLog>

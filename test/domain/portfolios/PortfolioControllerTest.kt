@@ -19,7 +19,7 @@ internal class PortfolioControllerTest {
     every { listAll(any()) } returns listOf(portfolio)
     every { findById(existsPortfolioUUID, user) } returns portfolio
     every { findById(absentPortfolioUUID, user) } returns null
-    every { save(portfolio, user) } returns portfolio
+    every { create(portfolio, user) } returns portfolio
   }
   private val ctx = mockk<Context>(relaxed = true) {
     every { getUser<User>() } returns user
@@ -46,7 +46,7 @@ internal class PortfolioControllerTest {
 
   @Test
   internal fun `save portfolio`() {
-    assertThat(controller.save(portfolio, ctx)).isEqualTo(portfolio)
-    verify { portfolioRepository.save(portfolio, user) }
+    assertThat(controller.create(portfolio, ctx)).isEqualTo(portfolio)
+    verify { portfolioRepository.create(portfolio, user) }
   }
 }
