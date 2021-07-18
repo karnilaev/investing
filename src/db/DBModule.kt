@@ -16,11 +16,13 @@ class DBModule: Extension {
     const val dbName = "app"
 
     fun configure(dbSuffix: String) = HikariConfig().apply {
-      jdbcUrl = System.getenv("DATABASE_URL")?.let { herokuDbUrlToJdbc(it) } ?: "jdbc:postgresql://${System.getenv("DB_HOST") ?: "localhost:6432"}/$dbName$dbSuffix?user=$dbName&password=$dbName"
+      jdbcUrl = System.getenv("DATABASE_URL")?.let { herokuDbUrlToJdbc(it) }
+        ?: "jdbc:postgresql://${System.getenv("DB_HOST") ?: "localhost:65432"}/$dbName$dbSuffix?user=$dbName&password=$dbName"
     }
 
     fun herokuDbUrlToJdbc(url: String): String {
-      val m = "postgres://(?<user>.+?):(?<password>.+?)@(?<hostportdb>.*)".toRegex().matchEntire(url)?.groups ?: return url
+      val m = "postgres://(?<user>.+?):(?<password>.+?)@(?<hostportdb>.*)".toRegex().matchEntire(url)?.groups
+        ?: return url
       return "jdbc:postgresql://${m["hostportdb"]!!.value}?sslmode=require&user=${m["user"]!!.value}&password=${m["password"]!!.value}"
     }
   }
