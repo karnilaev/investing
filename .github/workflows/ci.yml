@@ -1,0 +1,37 @@
+name: Build
+
+on: [push]
+
+env:
+  GITHUB_SHA: ${{ github.sha }}
+  GITHUB_REF: ${{ github.ref }}
+  CACHE: docker.pkg.github.com/${{ github.repository }}
+
+jobs:
+  docker:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set env.BRANCH
+        run: echo "BRANCH=$(echo $GITHUB_REF | cut -d'/' -f 3)" >> $GITHUB_ENV
+      - name: Pull docker layer cache
+        run: |
+          echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u $GITHUB_ACTOR --password-stdin
+          docker pull $CACHE/ui || true
+          docker pull $CACHE/server || true
+      - run: docker build --cache-from=$CACHE/ui --target ui-build -t ui-build .
+      - run: docker tag ui-build $CACHE/ui && docker push $CACHE/ui
+      - name: Test UI
+        run: docker run ui-build npm test
+      - run: docker build --cache-from=$CACHE/ui --cache-from=$CACHE/server --build-arg VERSION=$GITHUB_REF:$GITHUB_SHA --target server-build -t server-build .
+      - run: docker tag server-build $CACHE/server && docker push $CACHE/server
+      - name: Test Server
+        run: |
+          docker-compose -p app -f docker-compose.yml up -d db && sleep 3 && docker-compose logs
+          docker run --network app_default -e DB_HOST=db server-build ./gradlew --no-daemon --info test
+          docker-compose -p app down
+      - name: Build final
+        run: |
+          docker build --cache-from=$CACHE/ui --cache-from=$CACHE/server --target final -t $CACHE/final .
+          docker push $CACHE/final
